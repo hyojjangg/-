@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 고등학교 시절</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            animation: fadeInDown 1s ease;
+        }
+
+        header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            margin-bottom: 50px;
+            position: relative;
+            animation: fadeIn 1s ease;
+        }
+
+        .timeline-item:nth-child(odd) .content {
+            margin-left: 0;
+            margin-right: 52%;
+        }
+
+        .timeline-item:nth-child(even) .content {
+            margin-left: 52%;
+            margin-right: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 4px solid #667eea;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .content h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .content .date {
+            color: #764ba2;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .content p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .photo-placeholder {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-placeholder:hover {
+            transform: scale(1.05);
+        }
+
+        .tags {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 40px;
+        }
+
+        .add-memory-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 2em;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .add-memory-btn:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item::before {
+                left: 30px;
+            }
+
+            .timeline-item:nth-child(odd) .content,
+            .timeline-item:nth-child(even) .content {
+                margin-left: 70px;
+                margin-right: 0;
+            }
+
+            .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 나의 고등학교 시절</h1>
+            <p>소중한 추억을 간직하는 공간</p>
+        </header>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="content">
+                    <div class="date">📅 2021년 3월</div>
+                    <h2>설레는 입학식</h2>
+                    <p>새로운 교복을 입고 처음 학교에 들어섰던 날. 낯선 얼굴들 사이에서 설렘과 긴장이 교차했던 순간이 아직도 생생합니다.</p>
+                    <div class="photo-grid">
+                        <div class="photo-placeholder">사진 추가</div>
+                        <div class="photo-placeholder">사진 추가</div>
+                        <div class="photo-placeholder">사진 추가</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag">#입학식</span>
+                        <span class="tag">#새로운시작</span>
+                        <span class="tag">#1학년</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="content">
+                    <div class="date">📅 2021년 5월</div>
+                    <h2>첫 체육대회</h2>
+                    <p>반 친구들과 하나 되어 응원하고 달렸던 체육대회. 비록 우승은 못했지만, 함께 땀 흘리며 만든 우정은 그 무엇보다 값진 것이었습니다.</p>
+                    <div class="photo-grid">
+                        <div class="photo-placeholder">사진 추가</div>
+                        <div class="photo-placeholder">사진 추가</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag">#체육대회</span>
+                        <span class="tag">#우정</span>
+                        <span class="tag">#청춘</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="content">
+                    <div class="date">📅 2021년 10월</div>
+                    <h2>축제의 밤</h2>
+                    <p>학교 축제에서 반 친구들과 준비한 공연. 떨리는 마음으로 무대에 올랐지만, 친구들의 환호성과 함께 최고의 추억이 되었습니다.</p>
+                    <div class="photo-grid">
+                        <div class="photo-placeholder">사진 추가</div>
+                        <div class="photo-placeholder">사진 추가</div>
+                        <div class="photo-placeholder">사진 추가</div>
+                        <div class="photo-placeholder">사진 추가</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag">#축제</span>
+                        <span class="tag">#공연</span>
+                        <span class="tag">#추억</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="content">
+                    <div class="date">📅 2022년 6월</div>
+                    <h2>수학여행의 추억</h2>
+                    <p>제주도로 떠난 수학여행. 친구들과 함께 바다를 보며 미래에 대한 꿈을 이야기했던 그 밤을 잊을 수 없습니다.</p>
+                    <div class="photo-grid">
+                        <div class="photo-placeholder">사진 추가</div>
+                        <div class="photo-placeholder">사진 추가</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag">#수학여행</span>
+                        <span class="tag">#제주도</span>
+                        <span class="tag">#2학년</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="content">
+                    <div class="date">📅 2023년 12월</div>
+                    <h2>졸업식</h2>
+                    <p>3년간의 고등학교 생활을 마무리하는 날. 눈물과 웃음이 교차했던 그날, 우리는 새로운 시작을 약속했습니다.</p>
+                    <div class="photo-grid">
+                        <div class="photo-placeholder">사진 추가</div>
+                        <div class="photo-placeholder">사진 추가</div>
+                        <div class="photo-placeholder">사진 추가</div>
+                    </div>
+                    <div class="tags">
+                        <span class="tag">#졸업식</span>
+                        <span class="tag">#새로운시작</span>
+                        <span class="tag">#영원한친구</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>💜 소중한 추억들을 영원히 간직합니다 💜</p>
+            <p style="margin-top: 10px; opacity: 0.8; font-size: 0.9em;">
+                "청춘은 아름다운 꿈이다"
+            </p>
+        </footer>
+    </div>
+
+    <button class="add-memory-btn" onclick="alert('새로운 추억을 추가하는 기능은 JavaScript로 확장할 수 있습니다!')">+</button>
+
+    <script>
+        // 스크롤 애니메이션
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(30px)';
+            item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(item);
+        });
+
+        // 사진 추가 기능 (예시)
+        document.querySelectorAll('.photo-placeholder').forEach(placeholder => {
+            placeholder.addEventListener('click', function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            this.style.backgroundImage = `url(${event.target.result})`;
+                            this.style.backgroundSize = 'cover';
+                            this.style.backgroundPosition = 'center';
+                            this.textContent = '';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+                input.click();
+            });
+        });
+    </script>
+</body>
+</html>
